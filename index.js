@@ -27,6 +27,9 @@ async function run() {
     try {
         const productsCollection = client.db('monitorDokan').collection('products')
 
+        const bookingsCollection = client.db('monitorDokan').collection('bookings')
+
+
 
 
         app.get('/products', async (req, res) => {
@@ -49,6 +52,12 @@ async function run() {
             const category = req.params.category
             const query = { categoryName: category }
             const result = await productsCollection.find(query).toArray()
+            res.send(result)
+        })
+
+        app.post('/bookings', async (req, res) => {
+            const query = req.body
+            const result = await bookingsCollection.insertOne(query)
             res.send(result)
         })
 

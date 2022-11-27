@@ -32,15 +32,37 @@ async function run() {
         const usersCollection = client.db('monitorDokan').collection('users')
 
 
-
+        // getting data from database 
 
         app.get('/products', async (req, res) => {
             const query = {}
             const result = await productsCollection.find(query).toArray()
             res.send(result)
 
+        });
+        // find product by categoryName 
+        app.get('/products/:category', async (req, res) => {
+            const category = req.params.category
+            //     const decodedEmail = req.decoded.email
+            //     if (email !== decodedEmail) {
+            //     return res.status(403).send({ message: 'forbidden access' })
+            // }
+
+            const query = { categoryName: category }
+            const categories = await productsCollection.find(query).toArray()
+            res.send(categories)
         })
 
+
+        // insert a product ---
+        app.post("/products", async (req, res) => {
+            const products = req.body
+            const result = productsCollection.insertOne(products)
+            res.send(result)
+        })
+
+
+        // get product by id 
         app.get('/products/:id', async (req, res) => {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
@@ -48,19 +70,13 @@ async function run() {
             res.send(result)
         })
 
-        // category 
 
-        app.get('/products/:category', async (req, res) => {
-            const category = req.params.category
-            const query = { categoryName: category }
-            const result = await productsCollection.find(query).toArray()
-            res.send(result)
-        })
 
-        
+
 
 
         // post data to database 
+
 
 
         app.post('/bookings', async (req, res) => {
@@ -89,46 +105,4 @@ app.listen(port, () => {
 })
 
 
-// app.get('/products/:products', async (req, res) => {
-        //     const products = req.params.products
-        //     const filter = { products: products }
-        //     const result = await productsCollection.find(filter).toArray()
-        //     res.send(result)
-        // })
-        // app.get('/products/:name', async (req, res) => {
-        //     const name = req.params.name
-        //     const filter = { name: name }
-        //     const result = await productsCollection.find(filter).toArray()
-        //     res.send(result)
-        // })
 
-
-        // weapon of danger 
-        // app.post('/addname', async (req, res) => {
-        //     const filter = {}
-        //     const options = { Upsert: true }
-        //     const updatedDoc = {
-        //         $set: {
-        //             products: [
-
-        //                 {
-        //                     "name": "Dell E1916HV 18.5 Inch LED Monitor",
-        //                     "image": "https://www.startech.com.bd/image/cache/catalog/monitor/dell/e1916hv/e1916hv-01-228x228.webp",
-        //                     "location": "chittagong, Bangladesh",
-        //                     "resalePrice": " 4,000",
-        //                     "originalPrice": "9,900",
-        //                     "useYear": 2,
-        //                     "postDate": "25.11.2022",
-        //                     "sellersName": "Md Al Azayeen Ahrar",
-        //                     "condition": "good",
-        //                     "purchesYear": 2020,
-        //                     "phone": "01987633432",
-        //                     "discription": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam fugiat ad dolor repellendus. Corporis aliquam nesciunt, id atque iure officia voluptatem sint quis, sapiente enim maiores iste ducimus dignissimos quos, illum aliquid sunt! Autem harum sed aliquid nostrum, corporis repudiandae assumenda quas soluta porro explicabo! Ad laborum possimus dignissimos veritatis labore dicta adipisci atque sit in velit neque, laudantium, accusamus quibusdam a eveniet."
-        //                 }
-
-        //             ]
-        //         }
-        //     }
-        //     const result = await productsCollection.updateOne(filter, updatedDoc, options)
-        //     res.send(result)
-        // })

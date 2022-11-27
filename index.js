@@ -57,7 +57,11 @@ async function run() {
             res.send(result)
         })
 
+        
+
+
         // post data to database 
+
 
         app.post('/bookings', async (req, res) => {
             const query = req.body
@@ -83,3 +87,48 @@ run().catch(err => console.error(err))
 app.listen(port, () => {
     console.log(`server is running on port ${port}`)
 })
+
+
+// app.get('/products/:products', async (req, res) => {
+        //     const products = req.params.products
+        //     const filter = { products: products }
+        //     const result = await productsCollection.find(filter).toArray()
+        //     res.send(result)
+        // })
+        // app.get('/products/:name', async (req, res) => {
+        //     const name = req.params.name
+        //     const filter = { name: name }
+        //     const result = await productsCollection.find(filter).toArray()
+        //     res.send(result)
+        // })
+
+
+        // weapon of danger 
+        // app.post('/addname', async (req, res) => {
+        //     const filter = {}
+        //     const options = { Upsert: true }
+        //     const updatedDoc = {
+        //         $set: {
+        //             products: [
+
+        //                 {
+        //                     "name": "Dell E1916HV 18.5 Inch LED Monitor",
+        //                     "image": "https://www.startech.com.bd/image/cache/catalog/monitor/dell/e1916hv/e1916hv-01-228x228.webp",
+        //                     "location": "chittagong, Bangladesh",
+        //                     "resalePrice": " 4,000",
+        //                     "originalPrice": "9,900",
+        //                     "useYear": 2,
+        //                     "postDate": "25.11.2022",
+        //                     "sellersName": "Md Al Azayeen Ahrar",
+        //                     "condition": "good",
+        //                     "purchesYear": 2020,
+        //                     "phone": "01987633432",
+        //                     "discription": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam fugiat ad dolor repellendus. Corporis aliquam nesciunt, id atque iure officia voluptatem sint quis, sapiente enim maiores iste ducimus dignissimos quos, illum aliquid sunt! Autem harum sed aliquid nostrum, corporis repudiandae assumenda quas soluta porro explicabo! Ad laborum possimus dignissimos veritatis labore dicta adipisci atque sit in velit neque, laudantium, accusamus quibusdam a eveniet."
+        //                 }
+
+        //             ]
+        //         }
+        //     }
+        //     const result = await productsCollection.updateOne(filter, updatedDoc, options)
+        //     res.send(result)
+        // })

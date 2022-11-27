@@ -29,6 +29,8 @@ async function run() {
 
         const bookingsCollection = client.db('monitorDokan').collection('bookings')
 
+        const usersCollection = client.db('monitorDokan').collection('users')
+
 
 
 
@@ -55,9 +57,17 @@ async function run() {
             res.send(result)
         })
 
+        // post data to database 
+
         app.post('/bookings', async (req, res) => {
             const query = req.body
             const result = await bookingsCollection.insertOne(query)
+            res.send(result)
+        })
+
+        app.post('/users', async (req, res) => {
+            const user = req.body
+            const result = await usersCollection.insertOne(user)
             res.send(result)
         })
 

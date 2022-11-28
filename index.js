@@ -114,6 +114,19 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/bookings', async (req, res) => {
+            const query = {}
+            const result = await bookingsCollection.find(query).toArray()
+            res.send(result)
+        })
+
+        app.get('/mybook/:email', async (req, res) => {
+            const email = req.params.email
+            const query = { email: email }
+            const user = await bookingsCollection.find(query).toArray()
+            res.send(user)
+        })
+
         // user data
 
         app.post('/users', async (req, res) => {
@@ -144,6 +157,31 @@ async function run() {
             const user = await usersCollection.find(query).toArray()
             res.send(user)
         })
+
+        // adding admin 
+        app.put('/users/:id', async (req, res) => {
+            const id = req.params.id
+            const filter = { _id: ObjectId(id) }
+            const options = { Upsert: true }
+            const updatedDoc = {
+                $set: {
+                    role: 'admin'
+                }
+            }
+            const result = await usersCollection.updateOne(filter, updatedDoc, options)
+            res.send(result)
+        })
+
+
+        // delete a user 
+
+        app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id
+            const filter = { _id: ObjectId(id) }
+            const result = await usersCollection.deleteOne(filter)
+            res.send(result)
+        })
+
 
 
 

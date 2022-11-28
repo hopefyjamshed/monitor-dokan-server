@@ -50,10 +50,7 @@ async function run() {
         // find product by categoryName 
         app.get('/products/:category', async (req, res) => {
             const category = req.params.category
-            //     const decodedEmail = req.decoded.email
-            //     if (email !== decodedEmail) {
-            //     return res.status(403).send({ message: 'forbidden access' })
-            // }
+
 
             const query = { categoryName: category }
             const categories = await productsCollection.find(query).toArray()
@@ -61,20 +58,10 @@ async function run() {
         })
 
 
-        // app.get('/products/:email', async (req, res) => {
-        //     const email = req.params.email
-
-        //     const query = { email: email }
-        //     const result = await productsCollection.find(query).toArray()
-        //     res.send(result)
-        // })
 
         app.get('/myproduct/:email', async (req, res) => {
             const email = req.params.email
-            //     const decodedEmail = req.decoded.email
-            //     if (email !== decodedEmail) {
-            //     return res.status(403).send({ message: 'forbidden access' })
-            // }
+
 
             const query = { email: email }
             const myproduct = await productsCollection.find(query).toArray()

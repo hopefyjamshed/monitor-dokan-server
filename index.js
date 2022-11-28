@@ -92,10 +92,36 @@ async function run() {
 
 
         // get product by id 
-        app.get('/product/:id', async (req, res) => {
+        app.get('/verifiedproduct/:id', async (req, res) => {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
             const result = await productsCollection.find(query).toArray()
+            res.send(result)
+        })
+
+        // adding verify status of each user 
+        app.put('/verifiedproduct/:id', async (req, res) => {
+            const id = req.params.id
+            const filter = { _id: ObjectId(id) }
+            const options = { Upsert: true }
+            const updatedDoc = {
+                $set: {
+                    verified: true
+                }
+            }
+            const result = await productsCollection.updateOne(filter, updatedDoc, options)
+            res.send(result)
+        })
+        app.put('/products/:id', async (req, res) => {
+            const id = req.params.id
+            const filter = { _id: ObjectId(id) }
+            const options = { Upsert: true }
+            const updatedDoc = {
+                $set: {
+                    verified: true
+                }
+            }
+            const result = await productsCollection.updateOne(filter, updatedDoc, options)
             res.send(result)
         })
 
@@ -114,15 +140,18 @@ async function run() {
             res.send(result)
         })
 
+        // get booking bada 
+
+
         app.get('/bookings', async (req, res) => {
             const query = {}
             const result = await bookingsCollection.find(query).toArray()
             res.send(result)
         })
 
-        app.get('/mybook/:email', async (req, res) => {
+        app.get('/booking/:email', async (req, res) => {
             const email = req.params.email
-            const query = { email: email }
+            const query = { emai: email }
             const user = await bookingsCollection.find(query).toArray()
             res.send(user)
         })
@@ -171,6 +200,30 @@ async function run() {
             const result = await usersCollection.updateOne(filter, updatedDoc, options)
             res.send(result)
         })
+
+        app.get('/verify/:id', async (req, res) => {
+            const id = req.params.id
+            const filter = { _id: ObjectId(id) }
+            const result = await usersCollection.find(filter).toArray()
+            res.send(result)
+        })
+
+
+        // verifying user 
+        app.put('/verify/:id', async (req, res) => {
+            const id = req.params.id
+            const filter = { _id: ObjectId(id) }
+            const options = { Upsert: true }
+            const updatedDoc = {
+                $set: {
+                    verified: true
+                }
+            }
+            const result = await usersCollection.updateOne(filter, updatedDoc, options)
+            res.send(result)
+        })
+
+
 
 
         // delete a user 

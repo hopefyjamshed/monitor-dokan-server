@@ -45,7 +45,6 @@ async function run() {
             const query = {}
             const result = await productsCollection.find(query).limit(4).toArray()
             res.send(result)
-
         });
 
         // find product by categoryName 
@@ -62,6 +61,28 @@ async function run() {
         })
 
 
+        // app.get('/products/:email', async (req, res) => {
+        //     const email = req.params.email
+
+        //     const query = { email: email }
+        //     const result = await productsCollection.find(query).toArray()
+        //     res.send(result)
+        // })
+
+        app.get('/myproduct/:email', async (req, res) => {
+            const email = req.params.email
+            //     const decodedEmail = req.decoded.email
+            //     if (email !== decodedEmail) {
+            //     return res.status(403).send({ message: 'forbidden access' })
+            // }
+
+            const query = { email: email }
+            const myproduct = await productsCollection.find(query).toArray()
+            res.send(myproduct)
+        })
+
+
+
         // insert a product ---
         app.post("/products", async (req, res) => {
             const products = req.body
@@ -71,7 +92,7 @@ async function run() {
 
 
         // get product by id 
-        app.get('/products/:id', async (req, res) => {
+        app.get('/product/:id', async (req, res) => {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
             const result = await productsCollection.find(query).toArray()
@@ -93,11 +114,70 @@ async function run() {
             res.send(result)
         })
 
+        // user data
+
         app.post('/users', async (req, res) => {
             const user = req.body
             const result = await usersCollection.insertOne(user)
             res.send(result)
         })
+
+        app.get('/users', async (req, res) => {
+            const query = {}
+            const result = await usersCollection.find(query).toArray()
+            res.send(result)
+
+        })
+
+        app.get('/usertype/:type', async (req, res) => {
+            const type = req.params.type
+            const filter = { accountType: type }
+            const result = await usersCollection.find(filter).toArray()
+            res.send(result)
+        })
+
+        app.get('/user/:email', async (req, res) => {
+            const email = req.params.email
+
+
+            const query = { email: email }
+            const user = await usersCollection.find(query).toArray()
+            res.send(user)
+        })
+
+
+
+
+
+        // put data to database 
+
+        app.put('/product/:id', async (req, res) => {
+            const id = req.params.id
+            const filter = { _id: ObjectId(id) }
+            const options = { Upsert: true }
+            const updatedDoc = {
+                $set: {
+                    status: 'available'
+                }
+            }
+            const result = await productsCollection.updateOne(filter, updatedDoc, options)
+            res.send(result)
+        })
+
+        app.put('/product/:id', async (req, res) => {
+            const id = req.params.id
+            const filter = { _id: ObjectId(id) }
+            const options = { Upsert: true }
+            const updatedDoc = {
+                $set: {
+                    status: 'sold'
+                }
+            }
+            const result = await productsCollection.updateOne(filter, updatedDoc, options)
+            res.send(result)
+        })
+
+
 
 
     }

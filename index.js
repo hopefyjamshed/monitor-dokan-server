@@ -213,7 +213,7 @@ async function run() {
 
 
 
-        // delete a user 
+        // delete a user from database
 
         app.delete('/users/:id', async (req, res) => {
             const id = req.params.id

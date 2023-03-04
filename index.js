@@ -155,7 +155,6 @@ async function run() {
             const query = {}
             const result = await usersCollection.find(query).toArray()
             res.send(result)
-
         })
 
         app.get('/usertype/:type', async (req, res) => {
